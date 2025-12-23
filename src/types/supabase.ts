@@ -34,7 +34,86 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contract_categories: {
+        Row: {
+          created_at: string | null
+          icon_name: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          icon_name?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          icon_name?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      contract_requirements: {
+        Row: {
+          category_id: string | null
+          created_at: string | null
+          detailed_instructions: string | null
+          id: string
+          required_docs: Json
+          slug: string
+          title: string
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string | null
+          detailed_instructions?: string | null
+          id?: string
+          required_docs?: Json
+          slug: string
+          title: string
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string | null
+          detailed_instructions?: string | null
+          id?: string
+          required_docs?: Json
+          slug?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_requirements_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "contract_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          id: string
+          phone: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string | null
+        }
+        Insert: {
+          id: string
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -43,7 +122,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role: "admin" | "staff" | "client"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -173,7 +252,9 @@ export const Constants = {
     Enums: {},
   },
   public: {
-    Enums: {},
+    Enums: {
+      user_role: ["admin", "staff", "client"],
+    },
   },
 } as const
 
